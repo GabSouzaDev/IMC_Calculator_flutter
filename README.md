@@ -2,6 +2,9 @@
 
 Este é um projeto que eu desenvolvi usando o framework Flutter para criar uma aplicação móvel que calcula o índice de massa corporal (IMC) de uma pessoa. O IMC é uma medida que relaciona o peso e a altura de uma pessoa e indica se ela está dentro de uma faixa saudável ou não. O projeto utiliza os conceitos de widgets, estados, temas e navegação.
 
+##atualização
+18/10/2023 - Inserido a biblioteca SharedPreferences para armazenamento de dados local.
+
 ## Como usar
 
 Para usar a aplicação, você precisa ter o Flutter instalado no seu computador e um emulador ou dispositivo físico para rodar o app. Você pode seguir as instruções do site oficial do Flutter para configurar o ambiente: https://flutter.dev/docs/get-started/install
@@ -26,3 +29,4 @@ Este projeto utiliza os seguintes recursos do Flutter:
 - Column: widget que alinha os conteudos em coluna
 - StatefulWidget: uma classe que representa um widget que tem estado, ou seja, que pode mudar durante a execução da aplicação.
 - State: uma classe que armazena os dados e a lógica de um widget com estado.
+- SharedPreference: Uma biblioteca que permite armazenar dados de forma local
