@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proj_imc_calculator/model/imc.dart';
 import 'package:proj_imc_calculator/pages/repositories/imc_repository.dart';
+import 'package:proj_imc_calculator/services/app_storage_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +15,21 @@ class _HomePageState extends State<HomePage> {
   var imc = Imc();
   var pesoController = TextEditingController();
   var alturaController = TextEditingController();
+
+  AppStorageService prefs = AppStorageService();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    carregarDados();
+  }
+
+  void carregarDados() async {
+    pesoController.text = (await prefs.getPeso()).toString();
+    alturaController.text = (await prefs.getAltura()).toString();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +59,7 @@ class _HomePageState extends State<HomePage> {
                           margin: const EdgeInsets.symmetric(horizontal: 20),
                           alignment: Alignment.center,
                           child: TextField(
+                            keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               hintText: "Informe seu peso",
                             ),
@@ -61,6 +78,7 @@ class _HomePageState extends State<HomePage> {
                           margin: const EdgeInsets.symmetric(horizontal: 20),
                           alignment: Alignment.center,
                           child: TextField(
+                            keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                                 hintText: "Informe sua altura"),
                             controller: alturaController,
@@ -88,6 +106,38 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 80,
                       ),
+                      Center(
+                        child: TextButton(
+                            onPressed: () async {
+                              try {
+                                await prefs
+                                    .setPeso(double.parse(pesoController.text));
+                                await prefs.setAltura(
+                                    double.parse(alturaController.text));
+                              } catch (e) {
+                                // ignore: use_build_context_synchronously
+                                showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return AlertDialog(
+                                        title: const Text("Meu App"),
+                                        content: const Text(
+                                            "Favor informar um número válido!"),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text("Ok")),
+                                        ],
+                                      );
+                                    });
+                                return;
+                              }
+                            },
+                            child: const Text("Salvar dados")),
+                      ),
+                      SizedBox(height: 20),
                       Container(
                           color: const Color.fromARGB(136, 155, 39, 176),
                           width: double.infinity,
